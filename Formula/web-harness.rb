@@ -1,29 +1,31 @@
 class WebHarness < Formula
   desc "Lightweight local Codex-style execution host for ChatGPT Web"
   homepage "https://github.com/Chucklery/web-harness-rs"
-  version "0.1.0"
+  version "0.2.0"
   license "Apache-2.0"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/Chucklery/web-harness-rs/releases/download/v0.1.0/web-harness-0.1.0-aarch64-apple-darwin.tar.gz"
-      sha256 "762f52480eb0c3ee76a2db974e9dd440b678827b7a50631d2fd4152ffc95071b"
+      url "https://github.com/Chucklery/web-harness-rs/releases/download/v0.2.0/web-harness-0.2.0-aarch64-apple-darwin.tar.gz"
+      sha256 "8db62cbb88c674ac0a74514d7d8b2bb05bbf110fadfe2ab3c5a3f1a8e8a9f90e"
     else
-      url "https://github.com/Chucklery/web-harness-rs/releases/download/v0.1.0/web-harness-0.1.0-x86_64-apple-darwin.tar.gz"
-      sha256 "b2c95179a7fa46bcef93420f4cc15b5a47dd8feb88ae098dcb857c68597d5c34"
+      url "https://github.com/Chucklery/web-harness-rs/releases/download/v0.2.0/web-harness-0.2.0-x86_64-apple-darwin.tar.gz"
+      sha256 "537cf2a3e1131e3047fa81a55f4be20963d83b5182f1c7703a6ed32f488e93ea"
     end
   end
 
   on_linux do
-    url "https://github.com/Chucklery/web-harness-rs/releases/download/v0.1.0/web-harness-0.1.0-x86_64-unknown-linux-gnu.tar.gz"
-    sha256 "b334b7d0a58df9f5b165c03a77990d0375db38ed8f4ceb98b7dfb13f11d03701"
+    url "https://github.com/Chucklery/web-harness-rs/releases/download/v0.2.0/web-harness-0.2.0-x86_64-unknown-linux-gnu.tar.gz"
+    sha256 "4a3dd4e992c956748aea6fb9c4fdf14dc497ae7273de8806f90804112458c7d1"
   end
 
   def install
     bin.install "web-harness"
+    (libexec/"web-harness").install Dir["libexec/web-harness/*"]
   end
 
   test do
     assert_match version.to_s, shell_output("#{bin}/web-harness version")
+    assert_predicate libexec/"web-harness/tunnel-client", :executable?
   end
 end
